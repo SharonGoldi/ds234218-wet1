@@ -155,49 +155,57 @@ TreeStatusType FarmsDS::RemoveDataCenter(int dataCenterID) {
 TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
                                       int *assignedID) {
     // check if the data center is in the tree
-    ServersFarm* temp;
-    if(this->farmsDic->Find(dataCenterID,&temp) != TREE_SUCCESS) {
+    ServersFarm* dataCenter;
+    if(this->farmsDic->Find(dataCenterID,&dataCenter) != TREE_SUCCESS) {
         return TREE_FAILURE;
     }
 
-    if(temp->numOfServers() <= serverID) {
+    if(dataCenter->numOfServers() <= serverID) {
         return TREE_INVALID_INPUT;
     }
-    bool* os_changed;
-    temp->reqServer(serverID,os,assignedID,os_changed);
+
+    // request the server
+    bool os_changed;
+    dataCenter->reqServer(serverID,os,assignedID,&os_changed);
+
+    // check if a servers OS has been changed and if so, update the OS trees
     if (os_changed) {
-        FarmsServerNum temp = new ServerOSKey(dataCenterID,0);
+        FarmsServerNum temp;
         Node<FarmsServerNum ,int>* node;
-        int* val;
+        int val;
         if (os == WINDOWS) {
             // update the windows tree
-            this->windowsTree->Find(temp,val);
+            temp = dataCenter->GetServerNode(WINDOWS);
+            this->windowsTree->Find(temp,&val);
             this->windowsTree->Delete(temp);
-            temp++;
-            *val++;
-            this->windowsTree->Add(temp,*val,&node);
+            ++(*temp);
+            ++val;
+            this->windowsTree->Add(temp,val,&node);
 
             //update the linux tree
-            this->linuxTree->Find(temp,val);
+            temp = dataCenter->GetServerNode(LINUX);
+            this->linuxTree->Find(temp,&val);
             this->linuxTree->Delete(temp);
-            temp--;
-            *val--;
-            this->linuxTree->Add(temp,*val,&node);
+            --(*temp);
+            --val;
+            this->linuxTree->Add(temp,val,&node);
 
         } else {
             // update the windows tree
-            this->windowsTree->Find(temp,val);
+            temp = dataCenter->GetServerNode(WINDOWS);
+            this->windowsTree->Find(temp,&val);
             this->windowsTree->Delete(temp);
-            temp--;
-            *val--;
-            this->windowsTree->Add(temp,*val,&node);
+            --(*temp);
+            --val;
+            this->windowsTree->Add(temp,val,&node);
 
             //update the linux tree
-            this->linuxTree->Find(temp,val);
+            temp = dataCenter->GetServerNode(LINUX);
+            this->linuxTree->Find(temp,&val);
             this->linuxTree->Delete(temp);
-            temp++;
-            *val++;
-            this->linuxTree->Add(temp,*val,&node);
+            ++(*temp);
+            ++val;
+            this->linuxTree->Add(temp,val,&node);
         }
     }
     return TREE_SUCCESS;
@@ -221,6 +229,7 @@ TreeStatusType FarmsDS::GetDataCentersByOS(int os, int **dataCenters,
                                            int *numOfDataCenters) {
 
     AvlTree<ServerOSKey*, int>* serversTree;
+    // choose the right tree by the OS
     if (os == LINUX) {
         serversTree = this->linuxTree;
     } else if (os == WINDOWS){
@@ -228,7 +237,7 @@ TreeStatusType FarmsDS::GetDataCentersByOS(int os, int **dataCenters,
     } else {
         return TREE_INVALID_INPUT;
     }
-
+    //allocate the array
     int tree_size;
     this->farmsDic->Size(&tree_size);
     if (tree_size == 0) {
@@ -240,7 +249,7 @@ TreeStatusType FarmsDS::GetDataCentersByOS(int os, int **dataCenters,
     if (*dataCenters == NULL) {
         return TREE_ALLOCATION_ERROR;
     }
-
+    // fill the array
     Node<FarmsServerNum,int>** nodesArray = new Node<FarmsServerNum,int>*[tree_size]();
     serversTree->GetTreeInOrder(nodesArray);
 

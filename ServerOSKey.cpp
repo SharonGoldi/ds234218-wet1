@@ -27,6 +27,12 @@ ServerOSKey& ServerOSKey::operator--() {
         return *this;
 }
 
+ServerOSKey& ServerOSKey::operator=(ServerOSKey const &server) {
+   this->farmID = server.farmID;
+   this->num_of_servers = server.num_of_servers;
+   return *this;
+}
+
 bool operator<(const ServerOSKey &a, const ServerOSKey &b) {
         if (a.num_of_servers > b.num_of_servers) {
                 return true;

@@ -13,6 +13,7 @@ public:
     int GetFarmID();
     int GetNumOfServer();
 
+    ServerOSKey& operator=(ServerOSKey const& server);
     ServerOSKey& operator++();
     ServerOSKey& operator--();
 
