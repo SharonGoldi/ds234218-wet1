@@ -53,14 +53,8 @@ private:
 public:
     ServersFarm(int id,int m, FarmsServerNum linux, FarmsServerNum windows);
     ~ServersFarm();
-    ServersFarm& reqServer(int server_id,int os,int* assigned_id,bool* os_changed);
+    FarmStatus reqServer(int server_id,int os,int* assigned_id,bool* os_changed);
     FarmStatus freeServer(int server_id);
-//    /**
-//     * notice! important note
-//     * @param os - the wanted os to check
-//     * @return the number of free servers with the asked os, does not count the servers in use!
-//     */
-//    int GetDataCentersByOS(int os)const;
     int numOfServers();
     FarmsServerNum GetServerNode(ServerOS os);
 };

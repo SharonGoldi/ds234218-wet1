@@ -1,5 +1,6 @@
 
 #include "farmsDS.h"
+#include "ServerOSKey.h"
 
 //#define LINUX 0
 //#define WINDOWS 1
@@ -235,7 +236,7 @@ TreeStatusType FarmsDS::GetDataCentersByOS(int os, int **dataCenters,
     }
     *numOfDataCenters = tree_size;
 
-    dataCenters = static_cast<int **>(malloc(sizeof(int)*tree_size));
+    *dataCenters = (int*) malloc(sizeof(int)*tree_size);
     if (*dataCenters == NULL) {
         return TREE_ALLOCATION_ERROR;
     }
@@ -244,9 +245,9 @@ TreeStatusType FarmsDS::GetDataCentersByOS(int os, int **dataCenters,
     serversTree->GetTreeInOrder(nodesArray);
 
     for (int i = 0; i < tree_size; ++i) {
-        *dataCenters[i] = (*nodesArray[i]->key)->GetFarmID();
+        (*dataCenters)[i] = (*nodesArray[i]->key)->GetFarmID();
     }
 
-    delete[] nodesArray;
+//    delete[] nodesArray;
     return TREE_SUCCESS;
 }

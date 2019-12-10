@@ -32,9 +32,6 @@ ServersFarm::ServerQueue::~ServerQueue(){
         this->size--;
     }
 }
-//int ServersFarm::ServerQueue::getSize() const {
-//    return this->size;
-//}
 
 ServersFarm::ServerQueue& ServersFarm::ServerQueue::insert(Server& new_node) {
     if (this->isEmpty()){
@@ -109,19 +106,10 @@ ServersFarm::ServersFarm(int id,int m, FarmsServerNum linux, FarmsServerNum wind
     }
 };
 
-//int ServersFarm::GetDataCentersByOS(int os) const {
-//    switch (os) {
-//        case 0:
-//            return this->linux_servers->getSize();
-//        case 1:
-//            return this->windows_servers->getSize();
-//    }
-//}
-
-ServersFarm& ServersFarm::reqServer(int server_id, int os,int* assigned_id,bool* os_changed) {
+FarmStatus ServersFarm::reqServer(int server_id, int os,int* assigned_id,bool* os_changed) {
     if (server_id > this->num_of_servers){
         *assigned_id = -1;
-        return *this;
+        return FARM_FAILURE;
     }
     *assigned_id = server_id;
     if (this->servers[server_id].in_use){
@@ -153,7 +141,7 @@ ServersFarm& ServersFarm::reqServer(int server_id, int os,int* assigned_id,bool*
             break;
     }
     this->servers[*assigned_id].os = (ServerOS) os;
-    return *this;
+    return FARM_SUCCESS;
 }
 
 FarmStatus ServersFarm::freeServer(int server_id) {
