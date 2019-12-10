@@ -1,0 +1,33 @@
+
+#ifndef WET1_FARMSDS_H
+#define WET1_FARMSDS_H
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "library1.h"
+#include "AVLTree.h"
+#include "Farm.h"
+#include "ServerOSKey.h"
+
+class FarmsDS {
+    AvlTree<int, ServersFarm*>* farmsDic;
+    AvlTree<FarmsServerNum, int>* windowsTree;
+    AvlTree<FarmsServerNum, int>* linuxTree;
+
+public:
+    FarmsDS();
+    FarmsDS(FarmsDS& fds);
+    ~FarmsDS();
+    FarmsDS& operator=(FarmsDS const& fds);
+
+    TreeStatusType AddDataCenter(int dataCenterID, int numOfServers);
+    TreeStatusType RemoveDataCenter(int dataCenterID);
+    TreeStatusType RequestServer(int dataCenterID, int serverID, int os, int* assignedID);
+    TreeStatusType FreeServer(int dataCenterID, int serverID);
+    TreeStatusType GetDataCentersByOS(int os, int** dataCenters, int* numOfDataCenters);
+};
+
+
+#endif //WET1_FARMSDS_H

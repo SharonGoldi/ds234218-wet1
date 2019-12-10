@@ -1,0 +1,29 @@
+Init
+AddDataCenter 11 30
+AddDataCenter 12 20
+RequestServer 11 31 0
+RequestServer 11 1 0
+RequestServer 11 1 1
+RequestServer 11 -1 0
+RequestServer 12 19 2
+RequestServer 12 18 1
+RequestServer 12 17 0
+FreeServer 11 3
+FreeServer 8 1
+FreeServer -3 7
+AddDataCenter 12 20
+AddDataCenter 13 10
+RequestServer 13 1 1
+RequestServer 13 2 1
+RequestServer 13 3 0
+GetDataCenterByOS 1
+GetDataCenterByOS 0
+RequestServer 11 3 1
+RequestServer 11 4 1
+RemoveDataCenter 14
+RemoveDataCenter -7
+RemoveDataCenter 11
+RequestServer 11 7 0
+GetDataCenterByOS 1
+GetDataCenterByOS 0
+Quit
