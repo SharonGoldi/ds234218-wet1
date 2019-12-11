@@ -4,13 +4,13 @@ AddDataCenter: SUCCESS
 RequestServer: INVALID_INPUT
 RequestServer: 1
 RequestServer: 0
-RequestServer: FAILURE
-RequestServer: FAILURE
+RequestServer: INVALID_INPUT
+RequestServer: INVALID_INPUT
 RequestServer: 18
 RequestServer: 17
 FreeServer: FAILURE
 FreeServer: FAILURE
-FreeServer: FAILURE
+FreeServer: INVALID_INPUT
 AddDataCenter: FAILURE
 AddDataCenter: SUCCESS
 RequestServer: 1
