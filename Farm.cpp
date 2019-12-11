@@ -11,7 +11,8 @@ ServersFarm::Server::Server(int key):key(key),os(LINUX),in_use(false){
 }
 ServersFarm::Server::~Server() {
     this->next = NULL;
-    this->prev =NULL;
+    this->prev = NULL;
+//    delete this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,15 +23,16 @@ ServersFarm::ServerQueue::ServerQueue(int size ,Server* first):
                 size(0), first(NULL), last(NULL){}
 
 ServersFarm::ServerQueue::~ServerQueue(){
-    this->last = NULL;
-    this->last = NULL;
     Server* curr = this->first;
-    while (this->size > 0){
+    while (curr != NULL ){
         Server* temp = curr;
         curr = curr->next;
+
+        this->size--;
         delete temp;
-        (this->size)--;
     }
+    this->last = NULL;
+    this->first = NULL;
 }
 
 ServersFarm::ServerQueue& ServersFarm::ServerQueue::insert(Server& new_node) {

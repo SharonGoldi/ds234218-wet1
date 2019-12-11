@@ -41,7 +41,7 @@ FarmsDS::~FarmsDS() {
 
     // delete the servers trees:
     delete this->linuxTree;
-    delete this->farmsDic;
+    delete this->windowsTree;
 }
 
 FarmsDS& FarmsDS::operator=(FarmsDS const &fds) {
