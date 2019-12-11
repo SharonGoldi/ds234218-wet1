@@ -257,6 +257,6 @@ TreeStatusType FarmsDS::GetDataCentersByOS(int os, int **dataCenters,
         (*dataCenters)[i] = (*nodesArray[i]->key)->GetFarmID();
     }
 
-//    delete[] nodesArray;
+    delete[] nodesArray;
     return TREE_SUCCESS;
 }

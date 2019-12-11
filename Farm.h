@@ -24,6 +24,7 @@ public:
         Server(int key = 0);
         ~Server();
     };
+
     class ServerQueue{
         int size;
         Server* first;

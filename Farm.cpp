@@ -12,7 +12,6 @@ ServersFarm::Server::Server(int key):key(key),os(LINUX),in_use(false){
 ServersFarm::Server::~Server() {
     this->next = NULL;
     this->prev = NULL;
-//    delete this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
