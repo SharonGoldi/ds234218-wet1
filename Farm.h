@@ -4,8 +4,7 @@
 
 #ifndef UNTITLED_FARM_H
 #define UNTITLED_FARM_H
-#include <stdio.h>
-#include <assert.h>
+#include <cstdio>
 #include "ServerOSKey.h"
 
 typedef enum {LINUX = 0,WINDOWS =1} ServerOS;

@@ -13,10 +13,6 @@ int ServerOSKey::GetFarmID() {
         return this->farmID;
 }
 
-int ServerOSKey::GetNumOfServer() {
-        return this->num_of_servers;
-}
-
 ServerOSKey& ServerOSKey::operator++() {
         this->num_of_servers++;
         return *this;

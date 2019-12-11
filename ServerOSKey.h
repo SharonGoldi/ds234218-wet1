@@ -3,15 +3,14 @@
 #define WET1_FARMSSERVERNUM_H
 
 class ServerOSKey {
-    int num_of_servers;
     int farmID;
+    int num_of_servers;
 public:
     ServerOSKey(int farmID, int num_of_servers);
     ServerOSKey(ServerOSKey& farm);
     ~ServerOSKey() = default;
 
     int GetFarmID();
-    int GetNumOfServer();
 
     ServerOSKey& operator=(ServerOSKey const& server);
     ServerOSKey& operator++();

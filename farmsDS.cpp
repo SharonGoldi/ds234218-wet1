@@ -1,4 +1,4 @@
-
+#include <cassert>
 #include "farmsDS.h"
 #include "ServerOSKey.h"
 
@@ -28,10 +28,6 @@ FarmsDS::~FarmsDS() {
     //delete the arrays in each node
     for(int i = 0; i < treeSize; i++) {
         ServersFarm* farm = *NodeArray[i]->value;
-//        ServerOSKey* windows_key = farm->GetServerNode(WINDOWS);
-//        ServerOSKey* linux_key = farm->GetServerNode(LINUX);
-//        delete windows_key;
-//        delete linux_key; // TODO: check delete
         delete farm;
     }
     //delete the local array
@@ -86,8 +82,7 @@ TreeStatusType FarmsDS::AddDataCenter(int dataCenterID, int numOfServers) {
 
     // build the needed structs to the tree nodes
     ServersFarm* serverFarm;
-    ServerOSKey* linuxNum;
-    ServerOSKey* windowsNum;
+
     try{
         serverFarm = new ServersFarm(dataCenterID,numOfServers);
     }
@@ -107,14 +102,13 @@ TreeStatusType FarmsDS::AddDataCenter(int dataCenterID, int numOfServers) {
     int zero = 0;
     // place the node in the windows tree
     if (this->windowsTree->Add(*serverFarm->GetServerNode(WINDOWS), zero, &windowsNode) == TREE_ALLOCATION_ERROR) {
-        this->farmsDic->Delete(dataCenterID); // TODO: check if we need to delete the value
+        this->farmsDic->Delete(dataCenterID);
         delete serverFarm;
         return TREE_ALLOCATION_ERROR;
     }
     // place the node in the linux tree
     if (this->linuxTree->Add(*serverFarm->GetServerNode(LINUX), numOfServers, &linuxNode) == TREE_ALLOCATION_ERROR) {
-        this->farmsDic->Delete(
-                dataCenterID); // TODO: check if we need to delete the value
+        this->farmsDic->Delete(dataCenterID);
         this->windowsTree->Delete(*serverFarm->GetServerNode(WINDOWS));
         delete serverFarm;
         return TREE_ALLOCATION_ERROR;
@@ -134,10 +128,7 @@ TreeStatusType FarmsDS::RemoveDataCenter(int dataCenterID) {
     ServerOSKey* linux_key = temp->GetServerNode(LINUX);
     this->windowsTree->Delete(*windows_key);
     this->linuxTree->Delete(*linux_key);
-    // delete the nodes structs //TODO: check delete
-//    delete windows_key;
-//    delete linux_key;
-    // delete the dic structs
+    // delete the nodes structs
     this->farmsDic->Delete(dataCenterID);
     delete temp;
 
