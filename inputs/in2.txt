@@ -16,14 +16,14 @@ AddDataCenter 13 10
 RequestServer 13 1 1
 RequestServer 13 2 1
 RequestServer 13 3 0
-GetDataCenterByOS 1
-GetDataCenterByOS 0
+GetDataCentersByOS 1
+GetDataCentersByOS 0
 RequestServer 11 3 1
 RequestServer 11 4 1
 RemoveDataCenter 14
 RemoveDataCenter -7
 RemoveDataCenter 11
 RequestServer 11 7 0
-GetDataCenterByOS 1
-GetDataCenterByOS 0
+GetDataCentersByOS 1
+GetDataCentersByOS 0
 Quit

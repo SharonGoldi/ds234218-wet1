@@ -84,12 +84,12 @@ static bool isInit = false;
 int main(int argc, const char**argv) {
 
     char buffer[MAX_STRING_INPUT_SIZE];
-    FILE* in_file;
-    in_file = fopen("C:\\Users\\sharo\\ds234218\\wet1\\inputs\\in2.txt", "r");
+//    FILE* in_file;
+//    in_file = fopen("C:\\Users\\sharo\\ds234218\\wet1\\inputs\\in2.txt", "r");
 
     // Reading commands
-    while (fgets(buffer, MAX_STRING_INPUT_SIZE, in_file) != NULL) {
-//    while (fgets(buffer, MAX_STRING_INPUT_SIZE, stdin) != NULL) {
+//    while (fgets(buffer, MAX_STRING_INPUT_SIZE, in_file) != NULL) {
+    while (fgets(buffer, MAX_STRING_INPUT_SIZE, stdin) != NULL) {
             fflush(stdout);
         if (parser(buffer) == error)
             break;

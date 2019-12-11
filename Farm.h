@@ -32,11 +32,13 @@ public:
     public:
         ServerQueue(int size = 0, Server* first = NULL);
         ~ServerQueue();
-        ServerQueue& insert(Server& new_node);
+//        ServerQueue& insert(Server& new_node);
         ServerQueue& remove(Server* node);
         Server* getFirst();
         Server* getLast();
         bool isEmpty();
+
+        ServerQueue &insert(Server *new_node);
     };
 
 private:
@@ -44,7 +46,7 @@ private:
     int num_of_servers;
     int linux_in_use;
     int win_in_use;
-    Server* servers;
+    Server **servers;
     ServerQueue* windows_servers;
     ServerQueue* linux_servers;
     ServerOSKey* windows_node;
@@ -52,7 +54,7 @@ private:
     ServersFarm& findFreeLinuxServer(int* result);
     ServersFarm& findFreeWinServer(int* result);
 public:
-    ServersFarm(int id,int m, ServerOSKey* linux, ServerOSKey* windows);
+    ServersFarm(int id,int m);
     ~ServersFarm();
     FarmStatus reqServer(int server_id,int os,int* assigned_id,bool* os_changed);
     FarmStatus freeServer(int server_id);

@@ -49,7 +49,7 @@ StatusType RemoveDataCenter(void *DS, int dataCenterID){
 }
 
 StatusType RequestServer(void *DS, int dataCenterID, int serverID, int os, int *assignedID){
-    if (DS == NULL || serverID < 0 || os < 0 || os > 1 || assignedID == NULL) {
+    if (dataCenterID <= 0 || DS == NULL || serverID < 0 || os < 0 || os > 1 || assignedID == NULL) {
         return  INVALID_INPUT;
     }
     FarmsDS* fds = (FarmsDS*) DS;

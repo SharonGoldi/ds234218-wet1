@@ -678,7 +678,7 @@ TreeStatusType AvlTree<KeyType,ValueType>::Add(KeyType& key, ValueType& value,
         *node = NULL;
         return TREE_FAILURE;
     }
-    *node = newNode;
+//    *node = newNode;  // TODO: delete node from function call
     return TREE_SUCCESS;
 }
 

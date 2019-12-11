@@ -28,10 +28,10 @@ FarmsDS::~FarmsDS() {
     //delete the arrays in each node
     for(int i = 0; i < treeSize; i++) {
         ServersFarm* farm = *NodeArray[i]->value;
-        ServerOSKey* windows_key = farm->GetServerNode(WINDOWS);
-        ServerOSKey* linux_key = farm->GetServerNode(LINUX);
-        delete windows_key;
-        delete linux_key; // TODO: check delete
+//        ServerOSKey* windows_key = farm->GetServerNode(WINDOWS);
+//        ServerOSKey* linux_key = farm->GetServerNode(LINUX);
+//        delete windows_key;
+//        delete linux_key; // TODO: check delete
         delete farm;
     }
     //delete the local array
@@ -89,9 +89,7 @@ TreeStatusType FarmsDS::AddDataCenter(int dataCenterID, int numOfServers) {
     ServerOSKey* linuxNum;
     ServerOSKey* windowsNum;
     try{
-        linuxNum = new ServerOSKey(dataCenterID, numOfServers);
-        windowsNum = new ServerOSKey(dataCenterID, 0);
-        serverFarm = new ServersFarm(dataCenterID,numOfServers,linuxNum,windowsNum); //TODO: fix?
+        serverFarm = new ServersFarm(dataCenterID,numOfServers);
     }
     catch (std::bad_alloc &ba) {
         return TREE_ALLOCATION_ERROR;
@@ -101,9 +99,6 @@ TreeStatusType FarmsDS::AddDataCenter(int dataCenterID, int numOfServers) {
     Node<int,ServersFarm*>* node;
     if(this->farmsDic->Add(dataCenterID, serverFarm, &node) == TREE_ALLOCATION_ERROR) {
         delete serverFarm;
-        delete linuxNum;
-        delete windowsNum;
-        // TODO: delete serverFarm?
         return TREE_ALLOCATION_ERROR;
     }
 
@@ -111,21 +106,17 @@ TreeStatusType FarmsDS::AddDataCenter(int dataCenterID, int numOfServers) {
     Node<ServerOSKey,int>* linuxNode;
     int zero = 0;
     // place the node in the windows tree
-    if (this->windowsTree->Add(*windowsNum, zero, &windowsNode) == TREE_ALLOCATION_ERROR) {
+    if (this->windowsTree->Add(*serverFarm->GetServerNode(WINDOWS), zero, &windowsNode) == TREE_ALLOCATION_ERROR) {
         this->farmsDic->Delete(dataCenterID); // TODO: check if we need to delete the value
         delete serverFarm;
-        delete linuxNum;
-        delete windowsNum;
         return TREE_ALLOCATION_ERROR;
     }
     // place the node in the linux tree
-    if (this->linuxTree->Add(*linuxNum, numOfServers, &linuxNode) == TREE_ALLOCATION_ERROR) {
+    if (this->linuxTree->Add(*serverFarm->GetServerNode(LINUX), numOfServers, &linuxNode) == TREE_ALLOCATION_ERROR) {
         this->farmsDic->Delete(
                 dataCenterID); // TODO: check if we need to delete the value
-        this->windowsTree->Delete(*windowsNum);
+        this->windowsTree->Delete(*serverFarm->GetServerNode(WINDOWS));
         delete serverFarm;
-        delete linuxNum;
-        delete windowsNum;
         return TREE_ALLOCATION_ERROR;
     }
     return TREE_SUCCESS;
@@ -144,11 +135,11 @@ TreeStatusType FarmsDS::RemoveDataCenter(int dataCenterID) {
     this->windowsTree->Delete(*windows_key);
     this->linuxTree->Delete(*linux_key);
     // delete the nodes structs //TODO: check delete
-    delete windows_key;
-    delete linux_key;
+//    delete windows_key;
+//    delete linux_key;
     // delete the dic structs
-    delete temp;
     this->farmsDic->Delete(dataCenterID);
+    delete temp;
 
     return TREE_SUCCESS;
 }
@@ -168,6 +159,11 @@ TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
     // request the server
     bool os_changed;
     dataCenter->reqServer(serverID,os,assignedID,&os_changed);
+
+    // check if there is a free server, if not, return
+    if (*assignedID == -1) {
+        return TREE_FAILURE;
+    }
 
     // check if a servers OS has been changed and if so, update the OS trees
     if (os_changed) {
