@@ -22,6 +22,6 @@ public:
     friend bool operator>(const ServerOSKey& a, const ServerOSKey& b);
 };
 
-typedef ServerOSKey *FarmsServerNum;
+
 
 #endif //WET1_FARMSSERVERNUM_H

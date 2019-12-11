@@ -47,17 +47,17 @@ private:
     Server* servers;
     ServerQueue* windows_servers;
     ServerQueue* linux_servers;
-    FarmsServerNum windows_node;
-    FarmsServerNum linux_node;
+    ServerOSKey* windows_node;
+    ServerOSKey* linux_node;
     ServersFarm& findFreeLinuxServer(int* result);
     ServersFarm& findFreeWinServer(int* result);
 public:
-    ServersFarm(int id,int m, FarmsServerNum linux, FarmsServerNum windows);
+    ServersFarm(int id,int m, ServerOSKey* linux, ServerOSKey* windows);
     ~ServersFarm();
     FarmStatus reqServer(int server_id,int os,int* assigned_id,bool* os_changed);
     FarmStatus freeServer(int server_id);
     int numOfServers();
-    FarmsServerNum GetServerNode(ServerOS os);
+    ServerOSKey* GetServerNode(ServerOS os);
 };
 
 

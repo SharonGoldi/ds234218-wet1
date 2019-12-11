@@ -39,7 +39,7 @@ bool operator<(const ServerOSKey &a, const ServerOSKey &b) {
 }
 
 bool operator==(const ServerOSKey &a, const ServerOSKey &b) {
-        return (a.farmID == b.farmID) ;
+        return (a.farmID == b.farmID && a.num_of_servers == b.num_of_servers) ;
 }
 
 bool operator>(const ServerOSKey &a, const ServerOSKey &b) {

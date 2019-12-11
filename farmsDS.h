@@ -13,8 +13,8 @@
 
 class FarmsDS {
     AvlTree<int, ServersFarm*>* farmsDic;
-    AvlTree<FarmsServerNum, int>* windowsTree;
-    AvlTree<FarmsServerNum, int>* linuxTree;
+    AvlTree<ServerOSKey, int>* windowsTree;
+    AvlTree<ServerOSKey, int>* linuxTree;
 
 public:
     FarmsDS();

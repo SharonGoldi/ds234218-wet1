@@ -93,7 +93,7 @@ ServersFarm::Server *ServersFarm::ServerQueue::getLast() {
 
 // class ServersFarm code:
 
-ServersFarm::ServersFarm(int id,int m, FarmsServerNum linux, FarmsServerNum windows):
+ServersFarm::ServersFarm(int id,int m, ServerOSKey* linux, ServerOSKey* windows):
         farm_id(id),num_of_servers(m),linux_in_use(0),win_in_use(0){
     this->linux_node = linux;
     this->windows_node = windows;
@@ -192,7 +192,7 @@ int ServersFarm::numOfServers() {
     return this->num_of_servers;
 }
 
-FarmsServerNum ServersFarm::GetServerNode(ServerOS os) {
+ServerOSKey* ServersFarm::GetServerNode(ServerOS os) {
     assert(os == LINUX || os == WINDOWS);
     if (os == LINUX) {
         return this->linux_node;
