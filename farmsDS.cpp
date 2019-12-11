@@ -91,23 +91,20 @@ TreeStatusType FarmsDS::AddDataCenter(int dataCenterID, int numOfServers) {
     }
 
     // place the node in the farms dic
-    Node<int,ServersFarm*>* node;
-    if(this->farmsDic->Add(dataCenterID, serverFarm, &node) == TREE_ALLOCATION_ERROR) {
+    if(this->farmsDic->Add(dataCenterID, serverFarm) == TREE_ALLOCATION_ERROR) {
         delete serverFarm;
         return TREE_ALLOCATION_ERROR;
     }
 
-    Node<ServerOSKey,int>* windowsNode;
-    Node<ServerOSKey,int>* linuxNode;
     int zero = 0;
     // place the node in the windows tree
-    if (this->windowsTree->Add(*serverFarm->GetServerNode(WINDOWS), zero, &windowsNode) == TREE_ALLOCATION_ERROR) {
+    if (this->windowsTree->Add(*serverFarm->GetServerNode(WINDOWS), zero) == TREE_ALLOCATION_ERROR) {
         this->farmsDic->Delete(dataCenterID);
         delete serverFarm;
         return TREE_ALLOCATION_ERROR;
     }
     // place the node in the linux tree
-    if (this->linuxTree->Add(*serverFarm->GetServerNode(LINUX), numOfServers, &linuxNode) == TREE_ALLOCATION_ERROR) {
+    if (this->linuxTree->Add(*serverFarm->GetServerNode(LINUX), numOfServers) == TREE_ALLOCATION_ERROR) {
         this->farmsDic->Delete(dataCenterID);
         this->windowsTree->Delete(*serverFarm->GetServerNode(WINDOWS));
         delete serverFarm;
@@ -159,7 +156,6 @@ TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
     // check if a servers OS has been changed and if so, update the OS trees
     if (os_changed) {
         ServerOSKey* temp;
-        Node<ServerOSKey ,int>* node;
         int val;
         if (os == WINDOWS) {
             // update the windows tree
@@ -168,7 +164,7 @@ TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
             this->windowsTree->Delete(*temp);
             ++(*temp);
             ++val;
-            this->windowsTree->Add(*temp,val,&node);
+            this->windowsTree->Add(*temp,val);
 
             //update the linux tree
             temp = dataCenter->GetServerNode(LINUX);
@@ -176,7 +172,7 @@ TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
             this->linuxTree->Delete(*temp);
             --(*temp);
             --val;
-            this->linuxTree->Add(*temp,val,&node);
+            this->linuxTree->Add(*temp,val);
 
         } else {
             // update the windows tree
@@ -185,7 +181,7 @@ TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
             this->windowsTree->Delete(*temp);
             --(*temp);
             --val;
-            this->windowsTree->Add(*temp,val,&node);
+            this->windowsTree->Add(*temp,val);
 
             //update the linux tree
             temp = dataCenter->GetServerNode(LINUX);
@@ -193,7 +189,7 @@ TreeStatusType FarmsDS::RequestServer(int dataCenterID, int serverID, int os,
             this->linuxTree->Delete(*temp);
             ++(*temp);
             ++val;
-            this->linuxTree->Add(*temp,val,&node);
+            this->linuxTree->Add(*temp,val);
         }
     }
     return TREE_SUCCESS;

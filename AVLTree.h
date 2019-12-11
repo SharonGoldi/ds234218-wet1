@@ -168,7 +168,7 @@ public:
     ~AvlTree();
     AvlTree& operator=(AvlTree<KeyType,ValueType> const& tree);
 
-    TreeStatusType Add(KeyType& key, ValueType& value, Node<KeyType,ValueType>** node);
+    TreeStatusType Add(KeyType& key, ValueType& value);
     TreeStatusType Find(const KeyType& key, ValueType* value) const;
     TreeStatusType Delete(const KeyType& key);
     TreeStatusType DeleteByPointer(Node<KeyType,ValueType>* toDelete);
@@ -645,11 +645,10 @@ AvlTree<KeyType,ValueType>::~AvlTree() {
 
 //AvlTree funcs
 template <class KeyType, class ValueType>
-TreeStatusType AvlTree<KeyType,ValueType>::Add(KeyType& key, ValueType& value,
-                                               Node<KeyType,ValueType>** node) {
-    if (node == NULL) {
-        return TREE_INVALID_INPUT;
-    }
+TreeStatusType AvlTree<KeyType,ValueType>::Add(KeyType& key, ValueType& value) {
+//    if (node == NULL) {
+//        return TREE_INVALID_INPUT;
+//    }
 
     //build the node
     Node<KeyType,ValueType>* newNode;
@@ -675,7 +674,7 @@ TreeStatusType AvlTree<KeyType,ValueType>::Add(KeyType& key, ValueType& value,
         delete newNode;
         newNode = NULL;
 
-        *node = NULL;
+//        *node = NULL;
         return TREE_FAILURE;
     }
 //    *node = newNode;  // TODO: delete node from function call
