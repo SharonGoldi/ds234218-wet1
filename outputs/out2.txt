@@ -1,9 +1,9 @@
 init done.
 AddDataCenter: SUCCESS
 AddDataCenter: SUCCESS
-RequestServer: FAILURE
+RequestServer: INVALID_INPUT
 RequestServer: 1
-RequestServer: 2
+RequestServer: 0
 RequestServer: FAILURE
 RequestServer: FAILURE
 RequestServer: 18
