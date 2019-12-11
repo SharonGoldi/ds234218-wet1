@@ -2,7 +2,7 @@
 #include "ServerOSKey.h"
 
 ServerOSKey::ServerOSKey(int farmID, int num_of_servers) :
-    num_of_servers(num_of_servers), farmID(farmID){};
+        farmID(farmID), num_of_servers(num_of_servers){};
 
 ServerOSKey::ServerOSKey(ServerOSKey &farm){
         this->num_of_servers = farm.num_of_servers;
@@ -34,14 +34,8 @@ ServerOSKey& ServerOSKey::operator=(ServerOSKey const &server) {
 }
 
 bool operator<(const ServerOSKey &a, const ServerOSKey &b) {
-        if (a.num_of_servers > b.num_of_servers) {
-                return true;
-        } else if (a.num_of_servers == b.num_of_servers) {
-                if (a.farmID < b.farmID) {
-                        return true;
-                }
-        }
-        return false;
+        return  (a.num_of_servers > b.num_of_servers ||
+                (a.num_of_servers == b.num_of_servers && a.farmID < b.farmID));
 }
 
 bool operator==(const ServerOSKey &a, const ServerOSKey &b) {
@@ -49,5 +43,5 @@ bool operator==(const ServerOSKey &a, const ServerOSKey &b) {
 }
 
 bool operator>(const ServerOSKey &a, const ServerOSKey &b) {
-        return  !(a<b || a==b);
+        return  !(a < b || a == b);
 }

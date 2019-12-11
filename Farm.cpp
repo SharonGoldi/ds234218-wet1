@@ -29,7 +29,7 @@ ServersFarm::ServerQueue::~ServerQueue(){
         Server* temp = curr;
         curr = curr->next;
         delete temp;
-        this->size--;
+        (this->size)--;
     }
 }
 
@@ -184,7 +184,7 @@ ServersFarm& ServersFarm::findFreeLinuxServer(int* result) {
 ServersFarm::~ServersFarm() {
     delete this->windows_servers;
     delete this->linux_servers;
-    delete this->servers;
+    delete[] this->servers;
 }
 
 int ServersFarm::numOfServers() {
